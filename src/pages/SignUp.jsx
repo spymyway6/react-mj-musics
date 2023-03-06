@@ -49,7 +49,7 @@ export default function SignUp() {
     }
     return (
         <section className="sign-in-section">
-            <h1 className="sign-in-header">Sign Up</h1>
+            <h1 className="sign-in-header">Register Now</h1>
             <div className="sign-in-wrapper">
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
