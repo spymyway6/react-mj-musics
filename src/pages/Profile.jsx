@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import '../App.css';
 
 export default function Profile() {
   return (
-    <div>Profile</div>
+    <div><h1 className="text-white">Profile</h1></div>
   )
 }

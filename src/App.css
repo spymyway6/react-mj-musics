@@ -1,38 +1,68 @@
-.App {
-  text-align: center;
+/* Common Styles ================================================================================================= */
+.text-white{
+  color: #fff;
 }
+/* Close Common Styles ================================================================================================= */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Header Styles ================================================================================================= */
+header {
+  position: sticky;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header-wrap {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-shadow: 0 0 10px #0000008c;
 }
-
-.App-link {
-  color: #61dafb;
+.comp-logo h6 {
+  font-size: 42px;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: fantasy;
+  font-weight: 100;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.comp-logo h6 span{
+  color: #ff4646;
 }
+.menu-wrapper ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.menu-wrapper ul li a {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+}
+.menu-wrapper ul li {
+  color: #fff;
+  padding: 10px 20px;
+}
+.menu-wrapper ul li a {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: .2s;
+  cursor: pointer;
+}
+.menu-wrapper ul li a:hover {
+  color: #ff4646;
+}
+.menu-wrapper ul li.active a{
+  color: #ff4646;
+}
+/* Close Header Styles ================================================================================================= */
