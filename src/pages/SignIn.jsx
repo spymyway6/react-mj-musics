@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import OAuth from '../components/OAuth';
+import { db } from '../firebase';
 import '../App.css';
 
 export default function SignIn() {
@@ -25,16 +26,16 @@ export default function SignIn() {
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
                     <form action="">
-                        <div class="form-wrapper">
-                            <label for="email">Email Address *</label>
-                            <div class="form-group">
-                                <input type="text" class="form-input" id="email" name="email" placeholder="Email Address" value={email} onChange={onChange} required />
+                        <div className="form-wrapper">
+                            <label htmlFor="email">Email Address *</label>
+                            <div className="form-group">
+                                <input type="text" className="form-input" id="email" name="email" placeholder="Email Address" value={email} onChange={onChange} required />
                             </div>
                         </div>
-                        <div class="form-wrapper">
-                            <label for="password">Password *</label>
-                            <div class="form-group">
-                                <input type={showPass ? "text" : "password"} class="form-input" id="password" name="password" placeholder="Password" value={password} onChange={onChange} required />
+                        <div className="form-wrapper">
+                            <label htmlFor="password">Password *</label>
+                            <div className="form-group">
+                                <input type={showPass ? "text" : "password"} className="form-input" id="password" name="password" placeholder="Password" value={password} onChange={onChange} required />
                                 <i className="show-icon">{showPass ? <AiOutlineEyeInvisible onClick={()=>setShowPass((prevState) => !prevState)} /> : <AiOutlineEye onClick={()=>setShowPass((prevState) => !prevState)} />}</i>
                             </div>
                         </div>
@@ -45,7 +46,7 @@ export default function SignIn() {
                             </ul>
                         </div>
                         <div className="s-btn-group">
-                            <button class="submit-button" id="submit-button" type="submit"> Sign In</button>
+                            <button className="submit-button" id="submit-button" type="submit"> Sign In</button>
                             <span>OR</span>
                             <OAuth />
                         </div>

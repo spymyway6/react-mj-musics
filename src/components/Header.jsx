@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../App.css';
 
 export default function Header() {
@@ -19,9 +20,9 @@ export default function Header() {
                     </div>
                     <div className="menu-wrapper">
                         <ul>
-                            <li className={pathRoutes('/') || ''}><a onClick={()=>navigate("/")} href >Home</a></li>
-                            <li className={pathRoutes('/offers') || ''}><a onClick={()=>navigate("/offers")} href >Offers</a></li>
-                            <li className={pathRoutes('/sign-in') || ''}><a onClick={()=>navigate("/sign-in")} href >Sign In</a></li>
+                            <li className={pathRoutes('/') || ''}><Link to="/">Home</Link></li>
+                            <li className={pathRoutes('/offers') || ''}><Link to="/offers">Offers</Link></li>
+                            <li className={pathRoutes('/sign-in') || ''}><Link to="/sign-in">Sign In</Link></li>
                         </ul>
                     </div>
                 </div>

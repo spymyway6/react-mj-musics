@@ -16,10 +16,10 @@ export default function ForgotPassword() {
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
                     <form action="">
-                        <div class="form-wrapper">
-                            <label for="email">Email Address *</label>
-                            <div class="form-group">
-                                <input type="text" class="form-input" id="email" name="email" placeholder="Email Address" value={email} onChange={onChange} required />
+                        <div className="form-wrapper">
+                            <label htmlFor="email">Email Address *</label>
+                            <div className="form-group">
+                                <input type="text" className="form-input" id="email" name="email" placeholder="Email Address" value={email} onChange={onChange} required />
                             </div>
                         </div>
                         <div className="sign-in-text">
@@ -29,7 +29,7 @@ export default function ForgotPassword() {
                             </ul>
                         </div>
                         <div className="s-btn-group">
-                            <button class="submit-button" id="submit-button" type="submit"> Send Password Recovery</button>
+                            <button className="submit-button" id="submit-button" type="submit"> Send Password Recovery</button>
                             <span>OR</span>
                             <OAuth />
                         </div>
