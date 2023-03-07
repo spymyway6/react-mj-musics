@@ -38,7 +38,7 @@ export default function SignIn() {
             <div className="sign-in-wrapper">
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
-                    <form onClick={()=> this.preventDefault()}>
+                    <form onSubmit={()=> this.preventDefault()}>
                         <div className="form-wrapper">
                             <label htmlFor="email">Email Address *</label>
                             <div className="form-group">
