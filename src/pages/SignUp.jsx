@@ -34,13 +34,13 @@ export default function SignUp() {
                 displayName: name
             });
             const user = userCredential.user;
-            // Delete the password
-            const formDataCopy = {...formData}
-            delete formData.password;
-            formDataCopy.timestamp = serverTimestamp();
-
+            const docRef = doc(db, "users", user.uid);
+            await setDoc(docRef, {
+                name: name,
+                email: email,
+                timestamp: serverTimestamp(),
+            });
             // Save data to database
-            await setDoc(doc(db, "users", user.uid), formDataCopy);
             navigate('/');
         } catch (error) {
             console.log(error);
