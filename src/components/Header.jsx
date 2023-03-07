@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import '../App.css';
 
 export default function Header() {
+    const [pageState, setPageState] = useState("Sign In");
     const location = useLocation();
     const navigate = useNavigate();
+    const auth = getAuth();
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if(user){
+                setPageState("Profile");
+            }else{
+                setPageState("Sign In");
+            }
+        });
+    }, [auth]);
     function pathRoutes(route){
         if(route === location.pathname){
             return 'active';
@@ -22,7 +34,7 @@ export default function Header() {
                         <ul>
                             <li className={pathRoutes('/') || ''}><Link to="/">Home</Link></li>
                             <li className={pathRoutes('/offers') || ''}><Link to="/offers">Offers</Link></li>
-                            <li className={pathRoutes('/sign-in') || ''}><Link to="/sign-in">Sign In</Link></li>
+                            <li className={(pathRoutes('/sign-in') || pathRoutes('/profile')) || ''}><Link to={(pageState === 'Sign In') ? '/sign-in' : '/profile'}>{pageState}</Link></li>
                         </ul>
                     </div>
                 </div>
