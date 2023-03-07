@@ -27,7 +27,6 @@ export default function SignUp() {
     async function onSubmit(e){
         e.preventDefault();
         try {
-            toast.warning("Signing in...");
             const auth = getAuth();
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             updateProfile(auth.currentUser, {

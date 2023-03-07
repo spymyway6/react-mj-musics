@@ -1,12 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import OAuth from '../components/OAuth';
-import { db } from '../firebase';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
 import '../App.css';
 
 export default function SignIn() {
+    const navigate = useNavigate();
     const [showPass, setShowPass] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -19,13 +21,24 @@ export default function SignIn() {
             [e.target.id]: e.target.value,
         }));
     }
+    async function signInUser(){
+        try {
+            const auth = getAuth();
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            if(userCredential.user){
+                navigate('/');
+            }
+        } catch (error) {
+            toast.error("Incorrect Email or Password.");
+        }
+    }
     return (
         <section className="sign-in-section">
             <h1 className="sign-in-header">Sign In</h1>
             <div className="sign-in-wrapper">
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
-                    <form action="">
+                    <form onClick={()=> this.preventDefault()}>
                         <div className="form-wrapper">
                             <label htmlFor="email">Email Address *</label>
                             <div className="form-group">
@@ -46,7 +59,7 @@ export default function SignIn() {
                             </ul>
                         </div>
                         <div className="s-btn-group">
-                            <button className="submit-button" id="submit-button" type="submit"> Sign In</button>
+                            <button className="submit-button" id="submit-button" type="button" onClick={signInUser}> Sign In</button>
                             <span>OR</span>
                             <OAuth />
                         </div>
