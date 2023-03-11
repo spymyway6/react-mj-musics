@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Offers from './pages/Offers';
+import MyMusics from './pages/MyMusics';
 import Home from './pages/Home';
 import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
@@ -21,7 +21,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/offers" element={<Offers />} />
+                    <Route path="/my-musics" element={<MyMusics />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/profile" element={<PrivateRoute />}>
                         <Route path="/profile" element={<Profile />} />
@@ -30,7 +30,7 @@ function App() {
                     <Route path="/sign-up" element={<SignUpRoute />}>
                         <Route path="/sign-up" element={<SignUp />} />
                     </Route>
-                    <Route path="/add-music" element={<AddMusics />}>
+                    <Route path="/add-music" element={<PrivateRoute />}>
                         <Route path="/add-music" element={<AddMusics />} />
                     </Route>
                 </Routes>

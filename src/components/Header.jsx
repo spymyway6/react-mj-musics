@@ -33,7 +33,7 @@ export default function Header() {
                     <div className="menu-wrapper">
                         <ul>
                             <li className={pathRoutes('/') || ''}><Link to="/">Home</Link></li>
-                            <li className={pathRoutes('/offers') || ''}><Link to="/offers">Offers</Link></li>
+                            <li className={pathRoutes('/my-musics') || ''}><Link to="/my-musics">My Musics</Link></li>
                             <li className={(pathRoutes('/sign-in') || pathRoutes('/profile')) || ''}><Link to={(pageState === 'Sign In') ? '/sign-in' : '/profile'}>{pageState}</Link></li>
                         </ul>
                     </div>

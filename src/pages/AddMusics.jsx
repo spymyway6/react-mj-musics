@@ -1,11 +1,19 @@
-import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react'
-import { RiAddCircleLine } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
+import { getAuth } from 'firebase/auth';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { v1 as uuidv4 } from "uuid";
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddMusics() {
-    const auth = getAuth
+    const auth = getAuth();
     const navigate = useNavigate();
+    const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         music_title: "",
         vocalist: "",
@@ -13,13 +21,101 @@ export default function AddMusics() {
         music_duration: "",
         file_size: "",
         song_lyrics: "",
+        featured_image: {}
     });
-    const { music_title, vocalist, music_description, music_duration, file_size, song_lyrics } = formData;
+    const { music_title, vocalist, music_description, music_duration, file_size, song_lyrics, featured_image } = formData;
     function onChange(e){
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.id]: e.target.value,
-        }));
+        const boolean = null;
+        if(e.target.value === "false"){
+            boolean = false;
+        }
+        if(e.target.value === "true"){
+            boolean = true;
+        }
+        // Files
+        if(e.target.files){
+            setFormData((prevState) => ({
+                ...prevState,
+                featured_image: e.target.files
+            })); 
+        }
+        // Text or boolean or number
+        if(!e.target.files){
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.id]: e.target.value,
+            })); 
+        }
+    }
+
+    async function onSubmit(e){
+        e.preventDefault();
+        setLoading(true);
+        const imgUrls = await Promise.all(
+            [...featured_image].map((featured_image)=>storeImage(featured_image))
+        ).catch((error)=>{
+            setLoading(false);
+            toast.error("Images not uploaded");
+            console.log(error);
+            return;
+        });
+        console.log(imgUrls);
+
+        const formDataCopy = {
+            ...formData,
+            imgUrls,
+            timestamp: serverTimestamp(),
+        };
+        delete formDataCopy.featured_image;
+        const docRef = await addDoc(collection(db, "musics"), formDataCopy);
+        setLoading(false);
+        toast.success("Music added successfully.");
+        navigate(`/music/${docRef.id}`);
+    }
+    
+    async function storeImage(file){
+        const downloadURL = '';
+        return new Promise((resolve, reject) => {
+            const storage = getStorage();
+            const metadata = {
+                contentType: 'image/jpeg'
+            };
+            const filename = `${auth.currentUser.uid}-${file.name}-${uuidv4()}`;
+            const storageRef = ref(storage, filename);
+            const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+            
+            // Listen for state changes, errors, and completion of the upload.
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, 
+                (error) => {
+                    // A full list of error codes is available at
+                    // https://firebase.google.com/docs/storage/web/handle-errors
+                    reject(error);
+                }, 
+                () => {
+                    // Upload completed successfully, now we can get the download URL
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                }
+            );
+        })
+    }
+
+    if(loading){
+        return <Spinner />;
     }
     return (
         <section className="sign-in-section">
@@ -27,7 +123,7 @@ export default function AddMusics() {
             <div className="sign-in-wrapper">
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
-                    <form>
+                    <form onSubmit={onSubmit}>
                         <div className="form-wrapper">
                             <label htmlFor="music_title">Music Title *</label>
                             <div className="form-group">
@@ -43,7 +139,7 @@ export default function AddMusics() {
                         <div className="form-wrapper">
                             <label htmlFor="music_description">Music Description *</label>
                             <div className="form-group">
-                                <textarea className="form-input" id="music_description" name="music_description" placeholder="Write description.." rows="10" onChange={onChange} required>{music_description}</textarea>
+                                <textarea className="form-input" id="music_description" name="music_description" placeholder="Write description.." rows="10" onChange={onChange} value={music_description} required></textarea>
                             </div>
                         </div>
                         <div className="form-wrapper">
