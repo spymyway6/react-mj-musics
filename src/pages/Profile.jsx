@@ -1,5 +1,5 @@
 import { getAuth, updateProfile } from 'firebase/auth';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,9 +13,8 @@ export default function Profile() {
     const [changeDetail, setChangeDetail] = useState(false);
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
     });
-    const { name, email } = formData;
+    const { name } = formData;
     function onChange(e){
         setFormData((prevState) => ({
             ...prevState,
@@ -38,13 +37,14 @@ export default function Profile() {
                 });
 
                 //Update name in the firestore
-                const docRef = doc(db, 'users', auth.currentUser.uid);
-                await updateDoc(docRef, {
+                const docRef = doc(db, "users", auth.currentUser.uid);
+                await setDoc(docRef, {
                     name,
-                });
-                toast.success("Profile updated successfully.");
+                }, { merge: true });
             }
+            toast.success("Profile updated successfully.");
         } catch (error) {
+            console.log(error);
             toast.error("Could not update profile.");
         }
     }
@@ -54,7 +54,7 @@ export default function Profile() {
             <div className="sign-in-wrapper">
                 <div className="sign-bg-img"></div>
                 <div className="sign-in-columns">
-                    <form onSubmit={()=> this.preventDefault()}>
+                    <form>
                         <div className="form-wrapper">
                             <label htmlFor="name">FullName *</label>
                             <div className="form-group">
@@ -64,7 +64,7 @@ export default function Profile() {
                         <div className="form-wrapper">
                             <label htmlFor="email">Email Address *</label>
                             <div className="form-group">
-                                <input type="email" className="form-input" id="email" name="email" placeholder="Email Address" value={email} required />
+                                <input type="email" className="form-input" id="email" name="email" placeholder="Email Address" value={auth.currentUser.email} disabled={true} />
                             </div>
                         </div>
                         <div className="sign-in-text">
@@ -74,14 +74,8 @@ export default function Profile() {
                                     changeDetail && onSubmit();
                                     setChangeDetail((prevState) => !prevState);
                                 }}> {changeDetail ? 'Apply Changes' : 'Edit Name'}</span></li>
-
-
-
                                 <li><Link onClick={signOut}>Logout</Link></li>
                             </ul>
-                        </div>
-                        <div className="s-btn-group">
-                            <button className="submit-button" id="submit-button" type="button"> Save Profile</button>
                         </div>
                     </form>
                 </div>

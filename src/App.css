@@ -989,3 +989,15 @@ span.edit-name {
 span.edit-name:hover {
   text-decoration: underline;
 }
+/* Spinner */
+.spinner-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #121212;
+  align-items: center;
+  justify-content: center;
+}
