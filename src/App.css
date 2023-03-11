@@ -10,6 +10,9 @@
   font-size: 30px;
   margin-top: 70px;
 }
+.mt-10{
+  margin-top: 10px;
+}
 /* Close Common Styles ================================================================================================= */
 
 /* Header Styles ================================================================================================= */
@@ -19,6 +22,8 @@ header {
   left: 0;
   top: 0;
   right: 0;
+  background: #121212;
+  z-index: 9999999;
 }
 .header-wrap {
   display: flex;
@@ -803,12 +808,19 @@ section.single-music-section::after {
   background: #961439;
   color: #fff;
   border: 0;
-  padding: 20px;
+  padding: 0;
   font-size: 16px;
   border-radius: 10px;
   box-shadow: 0 0 20px #00000029;
-  display: block;
+  display: flex;
   width: 100%;
+  align-items: center;
+  line-height: 1.2;
+  justify-content: center;
+}
+.submit-button svg {
+  width: 25px;
+  height: 25px;
 }
 .submit-button:hover{
   background: #df346a;
@@ -887,10 +899,11 @@ section.single-music-section::after {
   outline: 0;
   padding: 15px 20px;
   width: 100%;
+  font-family: inherit;
   border: 1px solid #eee;
 }
 .form-group .form-input:focus {
-border: 1px solid #8ac1e6;
+  border: 1px solid #8ac1e6;
 }
 section.content {
   max-width: 1200px;

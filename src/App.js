@@ -9,6 +9,7 @@ import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
 import PrivateRoute from './components/PrivateRoute';
 import SignUpRoute from './components/SignUpRoute';
+import AddMusics from './pages/AddMusics';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
@@ -28,6 +29,9 @@ function App() {
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUpRoute />}>
                         <Route path="/sign-up" element={<SignUp />} />
+                    </Route>
+                    <Route path="/add-music" element={<AddMusics />}>
+                        <Route path="/add-music" element={<AddMusics />} />
                     </Route>
                 </Routes>
             </Router>

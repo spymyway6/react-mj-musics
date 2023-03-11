@@ -1,11 +1,12 @@
 import { getAuth, updateProfile } from 'firebase/auth';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../App.css';
 import { db } from '../firebase';
+import { RiAddCircleLine } from 'react-icons/ri';
 
 export default function Profile() {
     const auth = getAuth();
@@ -69,13 +70,15 @@ export default function Profile() {
                         </div>
                         <div className="sign-in-text">
                             <ul>
-                                {/* <li>Click here to <span className="edit-name" onClick={()=>setChangeDetail((prevState) => !prevState)}> {changeDetail ? 'Apply Changes' : 'Edit Name'}</span></li> */}
                                 <li>Click here to <span className="edit-name" onClick={()=>{
                                     changeDetail && onSubmit();
                                     setChangeDetail((prevState) => !prevState);
                                 }}> {changeDetail ? 'Apply Changes' : 'Edit Name'}</span></li>
                                 <li><Link onClick={signOut}>Logout</Link></li>
                             </ul>
+                        </div>
+                        <div className="s-btn-group">
+                            <button className="submit-button" id="submit-button" onClick={()=>navigate("/add-music")} type="button"> <RiAddCircleLine /> <span>Add New Music</span></button>
                         </div>
                     </form>
                 </div>
