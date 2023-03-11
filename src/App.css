@@ -982,3 +982,10 @@ section.content {
 .google-button svg {
   font-size: 30px;
 }
+span.edit-name {
+  color: #f992af;
+  cursor: pointer;
+}
+span.edit-name:hover {
+  text-decoration: underline;
+}

@@ -1,13 +1,16 @@
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../App.css';
+import { db } from '../firebase';
 
 export default function Profile() {
     const auth = getAuth();
     const navigate = useNavigate();
+    const [changeDetail, setChangeDetail] = useState(false);
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
         email: auth.currentUser.email,
@@ -25,6 +28,26 @@ export default function Profile() {
         navigate("/");
         toast.success("You are now logged out.");
     }
+    async function onSubmit(){
+        try {
+            if(auth.currentUser.displayName !== name){
+                //Update the display name in firebase auth
+                toast.warning("Updating profile, please wait...");
+                await updateProfile(auth.currentUser, {
+                    displayName: name
+                });
+
+                //Update name in the firestore
+                const docRef = doc(db, 'users', auth.currentUser.uid);
+                await updateDoc(docRef, {
+                    name,
+                });
+                toast.success("Profile updated successfully.");
+            }
+        } catch (error) {
+            toast.error("Could not update profile.");
+        }
+    }
     return (
         <section className="sign-in-section">
             <h1 className="sign-in-header">My Profile</h1>
@@ -35,7 +58,7 @@ export default function Profile() {
                         <div className="form-wrapper">
                             <label htmlFor="name">FullName *</label>
                             <div className="form-group">
-                                <input type="text" className="form-input" id="name" name="name" placeholder="FullName" value={name} onChange={onChange} required />
+                                <input type="text" className="form-input" id="name" name="name" placeholder="FullName" value={name} onChange={onChange} required disabled={!changeDetail} />
                             </div>
                         </div>
                         <div className="form-wrapper">
@@ -46,7 +69,14 @@ export default function Profile() {
                         </div>
                         <div className="sign-in-text">
                             <ul>
-                                <li>Click here to <Link to="/sign-up">Edit your Name</Link></li>
+                                {/* <li>Click here to <span className="edit-name" onClick={()=>setChangeDetail((prevState) => !prevState)}> {changeDetail ? 'Apply Changes' : 'Edit Name'}</span></li> */}
+                                <li>Click here to <span className="edit-name" onClick={()=>{
+                                    changeDetail && onSubmit();
+                                    setChangeDetail((prevState) => !prevState);
+                                }}> {changeDetail ? 'Apply Changes' : 'Edit Name'}</span></li>
+
+
+
                                 <li><Link onClick={signOut}>Logout</Link></li>
                             </ul>
                         </div>
