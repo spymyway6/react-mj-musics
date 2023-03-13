@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 export default function AddMusics() {
     const auth = getAuth();
     const navigate = useNavigate();
-    const [geolocationEnabled, setGeolocationEnabled] = useState(true);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         music_title: "",
@@ -21,22 +20,16 @@ export default function AddMusics() {
         music_duration: "",
         file_size: "",
         song_lyrics: "",
-        featured_image: {}
+        music_file: {},
+        featured_image: {},
     });
-    const { music_title, vocalist, music_description, music_duration, file_size, song_lyrics, featured_image } = formData;
+    const { music_title, vocalist, music_description, music_duration, file_size, song_lyrics, featured_image, music_file } = formData;
     function onChange(e){
-        const boolean = null;
-        if(e.target.value === "false"){
-            boolean = false;
-        }
-        if(e.target.value === "true"){
-            boolean = true;
-        }
         // Files
         if(e.target.files){
             setFormData((prevState) => ({
                 ...prevState,
-                featured_image: e.target.files
+                [e.target.id]: e.target.files
             })); 
         }
         // Text or boolean or number
@@ -51,34 +44,53 @@ export default function AddMusics() {
     async function onSubmit(e){
         e.preventDefault();
         setLoading(true);
+
+        // Upload Images
         const imgUrls = await Promise.all(
-            [...featured_image].map((featured_image)=>storeImage(featured_image))
+            [...featured_image].map((featured_image)=>storeFiles(featured_image))
         ).catch((error)=>{
             setLoading(false);
-            toast.error("Images not uploaded");
+            toast.error("Featured image not uploaded.");
             console.log(error);
             return;
         });
         console.log(imgUrls);
 
+        // Upload Musics
+        const musicURLs = await Promise.all(
+            [...music_file].map((music_file)=>storeFiles(music_file))
+        ).catch((error)=>{
+            setLoading(false);
+            toast.error("Music file not uploaded.");
+            console.log(error);
+            return;
+        });
+        console.log(musicURLs);
+
+        // Set the Form Data and Serialize
         const formDataCopy = {
             ...formData,
             imgUrls,
+            musicURLs,
             timestamp: serverTimestamp(),
         };
         delete formDataCopy.featured_image;
-        const docRef = await addDoc(collection(db, "musics"), formDataCopy);
-        setLoading(false);
+        delete formDataCopy.music_file;
+
+        // Save music to Database
+        const myCollection = collection(db, "musics");
+        const docRef = await addDoc(myCollection, formDataCopy);
+        
         toast.success("Music added successfully.");
+        setLoading(false);  
         navigate(`/music/${docRef.id}`);
     }
     
-    async function storeImage(file){
-        const downloadURL = '';
+    async function storeFiles(file){
         return new Promise((resolve, reject) => {
             const storage = getStorage();
             const metadata = {
-                contentType: 'image/jpeg'
+                contentType: '*'
             };
             const filename = `${auth.currentUser.uid}-${file.name}-${uuidv4()}`;
             const storageRef = ref(storage, filename);
@@ -95,6 +107,9 @@ export default function AddMusics() {
                             console.log('Upload is paused');
                             break;
                         case 'running':
+                            console.log('Upload is running');
+                            break;
+                        default:
                             console.log('Upload is running');
                             break;
                     }
