@@ -73,6 +73,7 @@ export default function AddMusics() {
             imgUrls,
             musicURLs,
             timestamp: serverTimestamp(),
+            userRef: auth.currentUser.uid
         };
         delete formDataCopy.featured_image;
         delete formDataCopy.music_file;
