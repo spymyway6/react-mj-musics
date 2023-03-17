@@ -121,9 +121,8 @@ export default function Profile() {
                     <section className="my-music-lists">
                         <div className="music-section-wrapper">
                             <div className="music-lists">
-                                <div className="heading-music-title">
+                                <div className="heading-music-title text-center">
                                     <h2>My Music Collection</h2>
-                                    <button className="add-new-btn"><i className="fa fa-plus"></i> Add Music</button>
                                 </div>
                                 <ul>
                                     {myMusics.map((music) => (

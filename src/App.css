@@ -2,6 +2,9 @@
 .text-white{
   color: #fff;
 }
+.text-cennter{
+  text-align: center;
+}
 .sign-in-header {
   color: #fff;
   text-transform: uppercase;
@@ -808,7 +811,7 @@ section.single-music-section::after {
   background: #961439;
   color: #fff;
   border: 0;
-  padding: 0;
+  padding: 20px;
   font-size: 16px;
   border-radius: 10px;
   box-shadow: 0 0 20px #00000029;
@@ -970,7 +973,7 @@ section.content {
 }
 .s-btn-group span {
   color: #fff;
-  padding: 20px;
+  padding: 0 20px;
 }
 .google-button {
   display: block;
