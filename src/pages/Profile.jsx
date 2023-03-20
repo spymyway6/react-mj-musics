@@ -1,5 +1,5 @@
 import { getAuth, updateProfile } from 'firebase/auth';
-import { collection, doc, getDocs, orderBy, query, setDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, where } from 'firebase/firestore';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -79,6 +79,19 @@ export default function Profile() {
     if(loading){
         return <Spinner />;
     }
+
+    function onEdit(musicID){
+        navigate(`/edit-music/${musicID}`);
+    }
+    async function onDelete(musicID){
+        if(window.confirm('Are you sure you want to delete?')){
+            toast.warning("Deleting please wait...");
+            await deleteDoc(doc(db, "musics", musicID));
+            const updatedMusics = myMusics.filter((music) => music.id !== musicID);
+            setMyMusics(updatedMusics);
+            toast.success("Music deleted successfully.");
+        }
+    }
     return (
         <>
             <section className="sign-in-section">
@@ -126,7 +139,13 @@ export default function Profile() {
                                 </div>
                                 <ul>
                                     {myMusics.map((music) => (
-                                        <MusicsItem key={music.id} id={music.id} music={music.data} />
+                                        <MusicsItem 
+                                            key={music.id} 
+                                            id={music.id} 
+                                            music={music.data}
+                                            onDelete={()=>onDelete(music.id)}
+                                            onEdit={()=>onEdit(music.id)}
+                                        />
                                     ))}
                                 </ul>
                             </div>

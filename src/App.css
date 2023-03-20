@@ -346,11 +346,11 @@ p.music-desc {
   position: absolute;
   right: 10px;
   z-index: 2;
-  bottom: 110px;
+  bottom: 10px;
   display: flex;
   opacity: 0;
 }
-.edit-buttons a {
+.edit-buttons .actionButon {
   text-decoration: none;
   background: #212020;
   font-size: 14px;
@@ -366,7 +366,7 @@ p.music-desc {
   margin-left: 5px;
   transition: .2s;
 }
-.edit-buttons a:hover {
+.edit-buttons .actionButon:hover {
   background: #df346a;
 }
 .music-lists h2 {
