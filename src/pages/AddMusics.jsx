@@ -80,11 +80,12 @@ export default function AddMusics() {
 
         // Save music to Database
         const myCollection = collection(db, "musics");
-        const docRef = await addDoc(myCollection, formDataCopy);
+        await addDoc(myCollection, formDataCopy);
         
         toast.success("Music added successfully.");
         setLoading(false);  
-        navigate(`/music/${docRef.id}`);
+        // navigate(`/music/${docRef.id}`);
+        navigate("/profile");
     }
     
     async function storeFiles(file){
@@ -116,8 +117,6 @@ export default function AddMusics() {
                     }
                 }, 
                 (error) => {
-                    // A full list of error codes is available at
-                    // https://firebase.google.com/docs/storage/web/handle-errors
                     reject(error);
                 }, 
                 () => {
@@ -179,13 +178,13 @@ export default function AddMusics() {
                         <div className="form-wrapper">
                             <label htmlFor="music_file">Music File *</label>
                             <div className="form-group">
-                                <input type="file" className="form-input" id="music_file" onChange={onChange} name="music_file" accept=".mp3" />
+                                <input type="file" className="form-input" id="music_file" onChange={onChange} name="music_file" accept=".mp3" required />
                             </div>
                         </div>
                         <div className="form-wrapper">
                             <label htmlFor="featured_image">Featured Image *</label>
                             <div className="form-group">
-                                <input type="file" className="form-input" id="featured_image" onChange={onChange} name="featured_image" accept=".png, .jpg, .jpeg" />
+                                <input type="file" className="form-input" id="featured_image" onChange={onChange} name="featured_image" accept=".png, .jpg, .jpeg" required />
                             </div>
                         </div>
                         <div className="s-btn-group">

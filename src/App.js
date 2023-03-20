@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SignUpRoute from './components/SignUpRoute';
 import AddMusics from './pages/AddMusics';
 import EditMusic from './pages/EditMusic';
+import Music from './pages/Music';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/edit-music" element={<PrivateRoute />}>
                         <Route path="/edit-music/:musicID" element={<EditMusic />} />
                     </Route>
+                    <Route path="/music/:musicID" element={<Music />} />
                 </Routes>
             </Router>
             <ToastContainer

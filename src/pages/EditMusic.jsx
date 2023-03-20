@@ -32,7 +32,7 @@ export default function EditMusic() {
             toast.error('You cannot edit this listing');
             navigate('/');
         }
-    }, [navigate, music, auth]);
+    }, [navigate, music, auth.currentUser.uid]);
 
     useEffect(() => {
         setLoading(true);
