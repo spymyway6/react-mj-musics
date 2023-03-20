@@ -4,8 +4,6 @@ import Moment from "react-moment";
 import { MdOutlineEdit, MdDelete, MdPlayCircleOutline } from "react-icons/md";
 
 export default function MusicsItem({ music, id, onEdit, onDelete}) {
-    const isActive = false;
-    const link = isActive ? "/" : null
     return (
         <li id="music-items-213213">
             <div className="music-img-wrapper">
