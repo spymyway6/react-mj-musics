@@ -34,4 +34,4 @@ const Player = ({ url }) => {
     );
 };
 
-export default Player;
+export default Player; 
